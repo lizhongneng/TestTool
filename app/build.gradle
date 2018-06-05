@@ -27,5 +27,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     implementation 'com.blankj:utilcode:1.16.0'
     compile 'com.meizu.flyme.sdk:flyme-recyclerview:3.1.+'
+    compile 'com.meizu.flyme.sdk:meizu-common:3.2.+'
+    compile 'com.meizu.flyme.sdk:flyme-appcompat:3.2.+'
+    compile 'com.meizu.flyme.sdk:colortheme-limegreen:3.2.+'
 
 }

@@ -4,27 +4,16 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <TextView
-        android:id="@+id/appinfo_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="@string/application_info"
-        android:gravity="center"
-        android:background="#888899"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        />
 
-    <ListView
+
+    <flyme.support.v7.widget.MzRecyclerView
         android:id="@+id/appinfo_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/appinfo_text"
-        android:divider="#666666"
-        android:dividerHeight="1dp"
-        >
-    </ListView>
+        android:layout_height="match_parent">
+        <!--android:divider="#666666"-->
+        <!--android:dividerHeight="1dp"-->
+
+    </flyme.support.v7.widget.MzRecyclerView>
 
 
 </RelativeLayout>

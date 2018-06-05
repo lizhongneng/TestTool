@@ -11,6 +11,7 @@ public class AppInfo {
     String appName;
     String packageName;
     String activityName;
+    String versionName;
     Drawable drawable;
 
     public AppInfo(){}
@@ -30,13 +31,14 @@ public class AppInfo {
         this.drawable = drawable;
     }
 
-    public AppInfo(String appName,String packageName, String activityName,Drawable drawable){
+    public AppInfo(String appName,String packageName, String activityName,String versionName,Drawable drawable){
         this.appName = appName;
         this.packageName = packageName;
         this.drawable = drawable;
         this.activityName = activityName;
-    }
+        this.versionName = versionName;
 
+    }
 
 
     public String getAppName() {
@@ -46,17 +48,6 @@ public class AppInfo {
             return appName;
     }
 
-    public String getActivityName(){
-        if(null == activityName)
-            return "";
-        else
-            return activityName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
     public String getPackageName() {
         if(null == packageName)
             return "";
@@ -64,15 +55,41 @@ public class AppInfo {
             return packageName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public String getActivityName(){
+        if(null == activityName)
+            return "";
+        else
+            return activityName;
     }
 
+    public String getVersionName(){
+        if(null == versionName)
+            return "";
+        else
+            return versionName;
+    }
+
+
     public Drawable getDrawable() {
+
         return drawable;
     }
 
     public void setDrawable(Drawable drawable) {
+
         this.drawable = drawable;
     }
+
+
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
 }
