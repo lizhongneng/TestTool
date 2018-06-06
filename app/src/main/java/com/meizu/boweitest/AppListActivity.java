@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import flyme.support.v7.app.AppCompatActivity;
@@ -60,10 +62,15 @@ public class AppListActivity extends AppCompatActivity {
         }
     }
 
-    public void updateUI(List<AppInfo> appInfos) {
+    public void updateUI(final List<AppInfo> appInfos) {
         if (null != appInfos ) {
             infosAdapter = new AppInfosAdapter(getApplication(), appInfos);
             appInfoListView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+            //将list按字母排序
+            if (appInfos.size() > 1) {
+                AppDisplayNameComparator rComparator = new AppDisplayNameComparator();
+                Collections.sort(appInfos, rComparator);
+            }
             appInfoListView.setAdapter(infosAdapter);
             //设置item 修饰器
             MzItemDecoration itemDecoration = new MzItemDecoration(this);
@@ -74,8 +81,6 @@ public class AppListActivity extends AppCompatActivity {
                 }
             });
             appInfoListView.addItemDecoration(itemDecoration);
-
-
 
         }
     }

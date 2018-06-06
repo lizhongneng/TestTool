@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
 import java.util.List;
 import flyme.support.v7.widget.RecyclerView;
 
@@ -21,7 +23,9 @@ public class AppInfosAdapter extends RecyclerView.Adapter<AppInfosAdapter.ViewHo
     public AppInfosAdapter(Context context , List<AppInfo> infos ){
         this.context = context;
         this.appInfos = infos;
+
         Log.d("lzn", appInfos.size() + "");
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
