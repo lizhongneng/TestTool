@@ -1,7 +1,5 @@
 package com.meizu.boweitest;
 
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 
 import java.text.Collator;
 import java.util.Comparator;
@@ -62,4 +60,7 @@ public class AppDisplayNameComparator implements Comparator<AppInfo>{
 
         return mCollator.compare(str1, str2);
     }
+
+
+
 }

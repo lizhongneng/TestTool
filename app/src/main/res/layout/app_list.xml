@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flyme="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
 
 
-    <flyme.support.v7.widget.MzRecyclerView
-        android:id="@+id/appinfo_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<flyme.support.v7.widget.MzRecyclerView-->
+        <!--android:id="@+id/appinfo_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scrollbars="none"/>-->
         <!--android:divider="#666666"-->
         <!--android:dividerHeight="1dp"-->
 
-    </flyme.support.v7.widget.MzRecyclerView>
+
+
+
+    <flyme.support.v7.widget.MzRecyclerView
+        android:id="@+id/appinfo_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="3dp"
+        android:scrollbars="vertical" />
+        <!--android:paddingBottom="@dimen/activity_fastscroller_vertical_margin"-->
+        <!--android:paddingStart="@dimen/activity_fastscroller_horizontal_margin"-->
+        <!--android:paddingEnd="@dimen/activity_fastscroller_horizontal_margin"-->
+        <!--android:paddingTop="@dimen/activity_fastscroller_vertical_margin"-->
+
+
+    <flyme.support.v7.widget.RecyclerFastScrollLetter
+        android:id="@+id/fastscroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/appinfo_list"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/appinfo_list"
+        flyme:mcLetterBarPaddingBottom="100dp"
+        flyme:mcLetterBarPaddingTop="100dp"
+        tools:ignore="RtlCompat" />
 
 
 </RelativeLayout>

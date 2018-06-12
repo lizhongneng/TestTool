@@ -104,6 +104,43 @@ public class Utils  {
 
 
     /**
+     * 清除应用缓存的用户数据，同时停止所有服务和Alarm定时task
+     * String cmd = "pm clear " + packageName;
+     * String cmd = "pm clear " + packageName  + " HERE";
+     * Runtime.getRuntime().exec(cmd)
+     * @param packageName
+     * @return
+     */
+    public static Process clearAppUserData(String packageName) {
+        Process p = execRuntimeProcess("pm clear " + packageName);
+        if (p == null) {
+            Log.e(TAG,"Clear app data packageName:" + packageName
+                    + ", FAILED !");
+        } else {
+            Log.e(TAG,"Clear app data packageName:" + packageName
+                    + ", SUCCESS !");
+        }
+        return p;
+    }
+
+    public static Process execRuntimeProcess(String commond) {
+        Process p = null;
+        try {
+            p = Runtime.getRuntime().exec(commond);
+        } catch (IOException e) {
+            Log.e(TAG,"exec Runtime commond:" + commond + ", IOException" + e);
+            e.printStackTrace();
+        }
+        Log.e(TAG,"exec Runtime commond:" + commond + ", Process:" + p);
+        return p;
+    }
+
+
+
+
+
+
+    /**
      * 判断手机是否安装某个应用
      * @param context
      * @param appPackageName  应用包名

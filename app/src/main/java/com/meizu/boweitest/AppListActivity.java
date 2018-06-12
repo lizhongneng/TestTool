@@ -1,37 +1,42 @@
 package com.meizu.boweitest;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Interpolator;
 
 
+import com.meizu.common.interpolator.PathInterpolatorCompat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
 
 import flyme.support.v7.app.AppCompatActivity;
 import flyme.support.v7.widget.LinearLayoutManager;
 import flyme.support.v7.widget.MzItemDecoration;
 import flyme.support.v7.widget.MzRecyclerView;
+import flyme.support.v7.widget.RecyclerFastScrollLetter;
+import flyme.support.v7.widget.RecyclerView;
 
 
 /**
  * Created by meizu on 2018/5/31.
  */
 
-public class AppListActivity extends AppCompatActivity {
+public class AppListActivity extends AppCompatActivity implements MzItemDecoration.DividerPadding {
 
     MzRecyclerView appInfoListView = null;
     List<AppInfo> appInfos = null;
     AppInfosAdapter infosAdapter = null;
-    private int mDensity;
     flyme.support.v7.app.ActionBar mActionBar;
+    int oldState;
+    private int mDensity;
+
+
 
 
     @Override
@@ -49,7 +54,44 @@ public class AppListActivity extends AppCompatActivity {
         mDensity = (int) getResources().getDisplayMetrics().density;
         appInfos = getAppInfos();
         updateUI(appInfos);
+
+
+
+        MzItemDecoration decoration = new MzItemDecoration(this);
+        decoration.setDividerPadding(this);
+        appInfoListView.addItemDecoration(decoration);
+        final RecyclerFastScrollLetter fastScroller = (RecyclerFastScrollLetter) findViewById(R.id.fastscroller);
+        fastScroller.setRecyclerView(appInfoListView);
+        fastScroller.setBackgroundColorSet(infosAdapter.getColorMap());
+        final long duration = 250;
+        final Interpolator interpolator = new PathInterpolatorCompat(0.2f, 0, 0.2f, 1);
+        oldState = appInfoListView.getScrollState();
+
+        appInfoListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            /*
+           added by chengminghai 2017-3-15
+           * */
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if(oldState == RecyclerView.SCROLL_STATE_IDLE && newState != RecyclerView.SCROLL_STATE_IDLE){
+                    if (fastScroller.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL){
+                        fastScroller.animate().translationX(-fastScroller.getWidth()).alpha(0).setInterpolator(interpolator).setDuration(duration).start();
+                    }else {
+                        fastScroller.animate().translationX(fastScroller.getWidth()).alpha(0).setInterpolator(interpolator).setDuration(duration).start();
+                    }
+                }else if(oldState !=RecyclerView.SCROLL_STATE_IDLE && newState == RecyclerView.SCROLL_STATE_IDLE){
+                    fastScroller.animate().translationX(0).alpha(1).setDuration(duration).setInterpolator(interpolator).start();
+                }
+                oldState = newState;
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -70,7 +112,9 @@ public class AppListActivity extends AppCompatActivity {
             if (appInfos.size() > 1) {
                 AppDisplayNameComparator rComparator = new AppDisplayNameComparator();
                 Collections.sort(appInfos, rComparator);
+                infosAdapter.updateFirstLetterPosition();
             }
+
             appInfoListView.setAdapter(infosAdapter);
             //设置item 修饰器
             MzItemDecoration itemDecoration = new MzItemDecoration(this);
@@ -107,5 +151,11 @@ public class AppListActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public int[] getDividerPadding(int i) {
+        int[] padding = {
+                48, 48
+        };
+        return padding;
+    }
 }
