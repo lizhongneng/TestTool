@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Interpolator;
+import android.widget.Toast;
 
 
 import com.meizu.common.interpolator.PathInterpolatorCompat;
@@ -29,7 +30,7 @@ import flyme.support.v7.widget.RecyclerView;
 
 public class AppListActivity extends AppCompatActivity implements MzItemDecoration.DividerPadding {
 
-    MzRecyclerView appInfoListView = null;
+    MzRecyclerView appInfoRecyclerView = null;
     List<AppInfo> appInfos = null;
     AppInfosAdapter infosAdapter = null;
     flyme.support.v7.app.ActionBar mActionBar;
@@ -43,12 +44,12 @@ public class AppListActivity extends AppCompatActivity implements MzItemDecorati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_list);
-        appInfoListView = (MzRecyclerView) findViewById(R.id.appinfo_list);
+        appInfoRecyclerView = (MzRecyclerView) findViewById(R.id.appinfo_list);
 
         // 获得actionbar
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true); // 设置显示左边的返回按钮
-        mActionBar.setTitle("所有应用"); // 设置标题栏Title
+        mActionBar.setTitle("点击应用清除数据"); // 设置标题栏Title
 
 
         mDensity = (int) getResources().getDisplayMetrics().density;
@@ -57,17 +58,18 @@ public class AppListActivity extends AppCompatActivity implements MzItemDecorati
 
 
 
+
         MzItemDecoration decoration = new MzItemDecoration(this);
         decoration.setDividerPadding(this);
-        appInfoListView.addItemDecoration(decoration);
+        appInfoRecyclerView.addItemDecoration(decoration);
         final RecyclerFastScrollLetter fastScroller = (RecyclerFastScrollLetter) findViewById(R.id.fastscroller);
-        fastScroller.setRecyclerView(appInfoListView);
+        fastScroller.setRecyclerView(appInfoRecyclerView);
         fastScroller.setBackgroundColorSet(infosAdapter.getColorMap());
         final long duration = 250;
         final Interpolator interpolator = new PathInterpolatorCompat(0.2f, 0, 0.2f, 1);
-        oldState = appInfoListView.getScrollState();
+        oldState = appInfoRecyclerView.getScrollState();
 
-        appInfoListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        appInfoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             /*
            added by chengminghai 2017-3-15
            * */
@@ -107,7 +109,7 @@ public class AppListActivity extends AppCompatActivity implements MzItemDecorati
     public void updateUI(final List<AppInfo> appInfos) {
         if (null != appInfos ) {
             infosAdapter = new AppInfosAdapter(getApplication(), appInfos);
-            appInfoListView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+            appInfoRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
             //将list按字母排序
             if (appInfos.size() > 1) {
                 AppDisplayNameComparator rComparator = new AppDisplayNameComparator();
@@ -115,7 +117,16 @@ public class AppListActivity extends AppCompatActivity implements MzItemDecorati
                 infosAdapter.updateFirstLetterPosition();
             }
 
-            appInfoListView.setAdapter(infosAdapter);
+            appInfoRecyclerView.setAdapter(infosAdapter);
+            //设置点击事件
+            infosAdapter.setOnItemClickListener(new AppInfosAdapter.MyOnItemClickListener() {
+                @Override
+                public void OnItemClickListener(View view, int position) {
+                    Utils.clearAppUserData(appInfos.get(position).getPackageName());
+                    Toast.makeText(getApplicationContext(), appInfos.get(position).getAppName() + "：数据已清除", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             //设置item 修饰器
             MzItemDecoration itemDecoration = new MzItemDecoration(this);
             itemDecoration.setDividerPadding(new MzItemDecoration.DividerPadding() {
@@ -124,7 +135,7 @@ public class AppListActivity extends AppCompatActivity implements MzItemDecorati
                     return new int[]{64 * mDensity, 24 * mDensity};
                 }
             });
-            appInfoListView.addItemDecoration(itemDecoration);
+            appInfoRecyclerView.addItemDecoration(itemDecoration);
 
         }
     }

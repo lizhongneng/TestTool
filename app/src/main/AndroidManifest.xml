@@ -2,29 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.meizu.boweitest">
+    <!--android:sharedUserId="android.uid.system"-->
 
 
 
     <application
-        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
+        android:name=".MyApplication"
         >
 
         <activity
             android:name=".FastMonkeyActivity"
-            android:label="选择应用">
+            android:allowBackup="true"
+            android:theme="@style/AppListActivityTheme"
+            tools:replace="android:theme,android:allowBackup">
         </activity>
 
         <activity
             android:name=".AppListActivity"
             android:allowBackup="true"
-            android:label="应用列表"
+            android:theme="@style/AppListActivityTheme"
+            tools:replace="android:theme,android:allowBackup">
+        </activity>
+
+        <activity
+            android:name=".PhoneInfoActivity"
+            android:allowBackup="true"
             android:theme="@style/AppListActivityTheme"
             tools:replace="android:theme,android:allowBackup">
         </activity>
@@ -61,6 +69,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name= "android.permission.RESTART_PACKAGES" />
     <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA"
         tools:ignore="ProtectedPermissions" />
 
 

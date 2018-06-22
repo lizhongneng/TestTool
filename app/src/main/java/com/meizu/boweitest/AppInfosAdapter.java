@@ -37,6 +37,7 @@ public class AppInfosAdapter extends MzRecyclerView.Adapter<AppInfosAdapter.View
             "#21c0ce",
             "#42bf6e"
     };
+    private MyOnItemClickListener itemClickListener;
 
 
     public AppInfosAdapter(Context context, List<AppInfo> infos) {
@@ -134,7 +135,7 @@ public class AppInfosAdapter extends MzRecyclerView.Adapter<AppInfosAdapter.View
 
     }
 
-    public class ViewHolder extends MzRecyclerView.ViewHolder {
+    public static class ViewHolder extends MzRecyclerView.ViewHolder {
         ImageView appIconImg;
         TextView appNameText;
         TextView appPackageText;
@@ -171,6 +172,18 @@ public class AppInfosAdapter extends MzRecyclerView.Adapter<AppInfosAdapter.View
         viewHolder.appPackageText.setText(appInfos.get(position).getPackageName());
 //        viewHolder.appActivityText.setText(appInfos.get(position).getActivityName());
         viewHolder.appVersionText.setText(appInfos.get(position).getVersionName());
+
+        /*将接收到的ViewHolder强转成自定义的VIewHolder*/
+        final ViewHolder myViewHolder =  viewHolder;
+         /*自定义item的点击事件不为null，设置监听事件*/
+        if (itemClickListener != null) {
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemClickListener.OnItemClickListener(myViewHolder.itemView, myViewHolder.getLayoutPosition());
+                }
+            });
+        }
     }
 
 
@@ -187,34 +200,24 @@ public class AppInfosAdapter extends MzRecyclerView.Adapter<AppInfosAdapter.View
     }
 
 
-    //    @Override
-//    public View getView(int position, View convertView, ViewGroup arg2) {
-//        // TODO Auto-generated method stub
-//        ViewHolder viewHolder = null;
-//        if(null == convertView){
-//            viewHolder = new ViewHolder();
-//            LayoutInflater mInflater = LayoutInflater.from(context);
-//
-//            convertView = mInflater.inflate(R.layout.item_list, null);
-//            viewHolder.appIconImg = (ImageView)convertView.findViewById(R.id.image);
-//            viewHolder.appNameText = (TextView)convertView.findViewById(R.id.label);
-//            viewHolder.appPackageText = (TextView)convertView.findViewById(R.id.package_name);
-//            viewHolder.appActivityText = (TextView)convertView.findViewById(R.id.activity_name);
-//
-//            convertView.setTag(viewHolder);
-//        }else{
-//            viewHolder = (ViewHolder)convertView.getTag();
-//        }
-//        if(null != appInfos){
-//            viewHolder.appIconImg.setBackground(appInfos.get(position).getDrawable());
-//            viewHolder.appNameText.setText(appInfos.get(position).getAppName());
-//            viewHolder.appPackageText.setText(appInfos.get(position).getPackageName());
-//            viewHolder.appActivityText.setText(appInfos.get(position).getActivityName());
-//
-//        }
-//
-//        return convertView;
-//    }
+    /**
+     * item点击接口
+     */
+    public interface MyOnItemClickListener {
+        void OnItemClickListener(View view, int position);
+    }
+
+    /**
+     * 列表点击事件
+     *
+     * @param itemClickListener
+     */
+    public void setOnItemClickListener(MyOnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+
+
 
 
 }

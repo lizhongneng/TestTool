@@ -1,60 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.meizu.boweitest.MainActivity">
 
-    <LinearLayout style="@style/wrap_layout">
-
-        <!-- 上圆角-->
-        <LinearLayout
-            style="@style/top_layout"
-            android:id="@+id/one_layout">
-
-            <TextView
-                style="@style/usertext"
-                android:text="一键跑Monkey" />
-
-            <ImageView style="@style/img_arrow"/>
-
-        </LinearLayout>
-
-        <!-- 分割线 -->
-        <View style="@style/bg_line"/>
-
-        <!-- 无圆角-->
-        <LinearLayout
-            style="@style/mid_layout"
-            android:id="@+id/two_layout">
-
-            <TextView
-                style="@style/usertext"
-                android:text="一键清数据" />
-
-            <ImageView style="@style/img_arrow"/>
-
-        </LinearLayout>
-
-        <!-- 分割线 -->
-        <View style="@style/bg_line"/>
-
-        <!-- 下圆角-->
-        <LinearLayout
-            style="@style/bottom_layout"
-            android:id="@+id/three_layout">
-
-            <TextView
-                style="@style/usertext"
-                android:text="预留位置" />
-
-            <ImageView style="@style/img_arrow"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-
-</android.support.constraint.ConstraintLayout>
+    <flyme.support.v7.widget.MzRecyclerView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

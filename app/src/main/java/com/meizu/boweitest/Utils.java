@@ -7,7 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import java.io.BufferedReader;
@@ -15,10 +20,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+import static android.content.Context.MODE_APPEND;
+import static android.content.Context.MODE_PRIVATE;
+
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 
 /**
@@ -27,6 +41,9 @@ import java.util.List;
 
 public class Utils  {
     private static final String TAG = "Utils";
+    private static Context mContext;
+
+
 
 //        mListAppInfo =Utils.queryAppInfo(this);
 
@@ -216,6 +233,50 @@ public class Utils  {
         }
 
     }
+
+
+    public static void install(String filePath) {
+        Log.i(TAG, "开始执行安装: " + filePath);
+        File apkFile = new File(filePath);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.w(TAG, "版本大于 N ，开始使用 fileProvider 进行安装");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri contentUri = FileProvider.getUriForFile(mContext,"com.meizu.auto.monkey.fileprovider",apkFile);
+            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
+        } else {
+            Log.w(TAG, "正常进行安装");
+            intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+        }
+        startActivity(intent);
+    }
+
+    public static String getJson(Context context, String filename) {
+        InputStream mInputStream = null;
+        String resultString = "";
+        try {
+            mInputStream = context.getAssets().open(filename);
+            byte[] buffer = new byte[mInputStream.available()];
+            mInputStream.read(buffer);
+            resultString = new String(buffer, "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                mInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultString.toString();
+    }
+
+
+
+
+
+
 
 
 

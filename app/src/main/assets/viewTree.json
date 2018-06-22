@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "title": "Monkey自动化",
+      "activity": "com.meizu.boweitest.FastMonkeyActivity"
+    },
+    {
+      "title": "清除应用数据",
+      "activity": "com.meizu.boweitest.AppListActivity"
+    },
+    {
+      "title": "查看机型信息",
+      "activity": "com.meizu.boweitest.PhoneInfoActivity"
+    }
+  ],
+  "version": 1
+}

@@ -30,5 +30,6 @@ dependencies {
     compile 'com.meizu.flyme.sdk:meizu-common:3.2.+'
     compile 'com.meizu.flyme.sdk:flyme-appcompat:3.2.+'
     compile 'com.meizu.flyme.sdk:colortheme-limegreen:3.2.+'
+    compile 'com.google.code.gson:gson:2.5'
 
 }
